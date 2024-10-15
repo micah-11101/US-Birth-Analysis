@@ -1,28 +1,20 @@
--- Create State Division Regions Table
-CREATE TABLE state_division_regions (
-    id SERIAL PRIMARY KEY,
-    state_name VARCHAR(30) NOT NULL,
-    state_code CHAR(2) NOT NULL UNIQUE,
-    division VARCHAR(30),
-    region VARCHAR(30)
-);
+DROP TABLE IF EXISTS us_births_data_2016_2021;
 
--- Create Birth Data Table
-CREATE TABLE birth_data (
-    id SERIAL PRIMARY KEY,
-    state_code CHAR(2) NOT NULL,
+-- Create the table
+CREATE TABLE us_births_data_2016_2021 (
+    state VARCHAR(50) NOT NULL,
+    state_abbreviation VARCHAR(2) NOT NULL,
     year INT NOT NULL,
-    gender CHAR(1) CHECK (gender IN ('M', 'F')),
-    education_level_mother VARCHAR(100),
-    education_level_code INT,
-    number_of_births INT,
-    average_age_of_mother DECIMAL(4,1),
-    average_birth_weight DECIMAL(6,1),
-
-    -- Foreign Key Constraint
-    CONSTRAINT fk_state_code
-        FOREIGN KEY (state_code) 
-        REFERENCES state_division_regions(state_code)
+    gender VARCHAR(1) CHECK (gender IN ('M', 'F')) NOT NULL,
+    education_level_mother VARCHAR(100) NOT NULL,
+    education_level_code INT NOT NULL,
+    number_of_births INT NOT NULL,
+    avg_age_of_mother FLOAT NOT NULL,
+    avg_birth_weight_g FLOAT NOT NULL,
+    state_code VARCHAR(2) NOT NULL,
+    division VARCHAR(50) NOT NULL,
+    region VARCHAR(50) NOT NULL
 );
 
-
+-- Show the table
+SELECT * FROM us_births_data_2016_2021;
