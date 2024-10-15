@@ -19,7 +19,7 @@ def get_births_data():
         cur = conn.cursor()
         
         # Execute a SQL query
-        query = sql.SQL("SELECT * FROM us_births_2016_2021")  # Replace 'your_table_name' with the actual table name
+        query = sql.SQL("SELECT * FROM us_births_data_2016_2021")  # Replace 'your_table_name' with the actual table name
         cur.execute(query)
         
         # Fetch all rows from the result
@@ -39,9 +39,10 @@ def get_births_data():
         return None
 
 from flask import Flask, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 @app.route('/api/us_births_data_2016_2021_ALL')
 def get_births_api():
     # This function creates an API endpoint for birth data
