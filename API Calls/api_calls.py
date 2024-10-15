@@ -1,13 +1,20 @@
+import os
+from dotenv import load_dotenv
 import psycopg2
 from psycopg2 import sql
+from flask import Flask, jsonify
+from flask_cors import CORS
+
+# Load environment variables
+load_dotenv()
 
 # Database connection parameters
 db_params = {
-    'dbname': 'Project3_US_Births',
-    'user': 'postgres',
-    'password': 'postgres',
-    'host': 'localhost',
-    'port': '5432'
+    'dbname': os.getenv('DB_NAME'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'host': os.getenv('DB_HOST'),
+    'port': os.getenv('DB_PORT')
 }
 
 def get_births_data():
@@ -19,7 +26,7 @@ def get_births_data():
         cur = conn.cursor()
         
         # Execute a SQL query
-        query = sql.SQL("SELECT * FROM us_births_data_2016_2021")  # Replace 'your_table_name' with the actual table name
+        query = sql.SQL("SELECT * FROM us_births_data_2016_2021")
         cur.execute(query)
         
         # Fetch all rows from the result
@@ -38,11 +45,9 @@ def get_births_data():
         print("Error while connecting to PostgreSQL", error)
         return None
 
-from flask import Flask, jsonify
-from flask_cors import CORS
-
 app = Flask(__name__)
 CORS(app)
+
 @app.route('/api/us_births_data_2016_2021_ALL')
 def get_births_api():
     # This function creates an API endpoint for birth data
@@ -58,7 +63,6 @@ def get_births_api():
         # Iterate through each row of the retrieved data
         for row in data:
             # Create a dictionary for each row, mapping column names to values
-            # This step transforms the raw database output into a structured format
             formatted_row = {
                 'state': row[0],          
                 'state_abbreviation': row[1],       
@@ -77,14 +81,10 @@ def get_births_api():
             # Add the formatted row to the list of all data
             formatted_data.append(formatted_row)
         
-        # Print the jsonified data
-        print(jsonify(formatted_data).get_data(as_text=True))
-        
         # Return the formatted data as a JSON response
-        # This allows the API to send the data in a web-friendly format
         return jsonify(formatted_data)
     else:
-        # If no data is retrieved, print and return an error message
+        # If no data is retrieved, return an error message
         error_message = 'Error: No data retrieved from the database'
         print(error_message)
         return jsonify({'error': error_message}), 500
