@@ -18,3 +18,30 @@ CREATE TABLE us_births_data_2016_2021 (
 
 -- Show the table
 SELECT * FROM us_births_data_2016_2021;
+
+-- This query aggregates birth data by region, division, and state
+-- It calculates the total number of births and average maternal age and birth weight
+-- Results are rounded to two decimal places for readability
+SELECT
+    region,
+    division,
+    state,
+    SUM(number_of_births) AS sum_of_number_of_births,
+    CAST(AVG(avg_age_of_mother) AS DECIMAL(10,2)) AS avg_of_avg_age_of_mother,
+    CAST(AVG(avg_birth_weight_g) AS DECIMAL(10,2)) AS avg_of_avg_birth_weight_g
+FROM us_births_data_2016_2021
+GROUP BY region, division, state
+ORDER BY region, division, state;
+
+-- This query retrieves annual birth statistics for each state from 2016 to 2021
+-- It calculates total births, average mother's age, and average birth weight
+-- Results are grouped by state and year, then ordered for easy analysis
+SELECT
+    state,
+    year,
+    SUM(number_of_births) AS total_births,
+    CAST(AVG(avg_age_of_mother) AS DECIMAL(10,2)) AS avg_of_avg_age_of_mother,
+    CAST(AVG(avg_birth_weight_g) AS DECIMAL(10,2)) AS avg_of_avg_birth_weight_g
+FROM us_births_data_2016_2021
+GROUP BY state, year
+ORDER BY state, year;
