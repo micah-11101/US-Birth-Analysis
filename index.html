@@ -3,13 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>US Births by State and Education</title>
+    <title>CDC US Births Data 2016-2021</title>
     <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .header {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            color: #077d8c;
+            font-size: 2.5em;
+        }
+    </style>
 </head>
 <body>
-    <h1>US Births by State and Education</h1>
-    <div id="chart"></div>
+    <div class="header">
+        <h1>CDC US Births Data 2016-2021</h1>
+    </div>
+    <div id="map"></div>
     <script src="/static/script.js"></script>
 </body>
 </html>
