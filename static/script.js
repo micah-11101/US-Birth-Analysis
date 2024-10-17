@@ -1,72 +1,75 @@
-// Initialize the map
+// Initialize the map centered on the United States
 const map = L.map('map').setView([37.8, -96], 4);
-console.log('Map initialized');
+console.log('Map initialized with center coordinates [37.8, -96] and zoom level 4');
 
-// Add the tile layer
+// Add the OpenStreetMap tile layer to the map for geographical context
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
-console.log('Tile layer added');
+console.log('OpenStreetMap tile layer added to the map');
 
-// Global variables
+// Declare global variables to be used throughout the script for data management and visualization
 let geojsonLayer, markersLayer, data, regions, divisions, states, stateYearData;
 
-// Ensure the map container has a defined height and add border and shadow
+// Style the map container for better visual presentation
 const mapContainer = document.getElementById('map');
 mapContainer.style.height = '500px';
 mapContainer.style.border = '2px solid #ccc';
 mapContainer.style.borderRadius = '8px';
 mapContainer.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-mapContainer.style.marginBottom = '20px'; // Add margin below the map
+mapContainer.style.marginBottom = '20px'; // Add margin below the map for spacing
 
-// Fetch data from the API
-console.log('Fetching data from API...');
+// Fetch data from multiple API endpoints using Promise.all for concurrent requests
+console.log('Initiating data fetch from multiple API endpoints...');
 Promise.all([
     d3.json('http://127.0.0.1:5000/api/region_division_state_data'),
     d3.json('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json'),
     d3.json('http://127.0.0.1:5000/api/state_year_data')
 ])
 .then(([fetchedData, geojson, fetchedStateYearData]) => {
-    console.log('Data fetched successfully:', fetchedData);
-    console.log('GeoJSON data:', geojson);
-    console.log('State Year Data:', fetchedStateYearData);
+    console.log('Data fetched successfully. Processing and initializing visualization components...');
+    console.log('Region, division, and state data:', fetchedData);
+    console.log('US states GeoJSON data:', geojson);
+    console.log('State-specific yearly data:', fetchedStateYearData);
     data = fetchedData;
     stateYearData = fetchedStateYearData;
 
+    // Validate the fetched data to ensure it's not empty or malformed
     if (!Array.isArray(data) || data.length === 0) {
-        throw new Error('Fetched data is empty or not an array');
+        throw new Error('Fetched data is empty or not in the expected array format');
     }
 
-    // Extract unique regions, divisions, and states
+    // Extract unique regions, divisions, and states from the data for filtering options
     regions = [...new Set(data.map(d => d.region))];
     divisions = [...new Set(data.map(d => d.division))];
     states = [...new Set(data.map(d => d.state))];
 
-    console.log('Creating filter dropdowns...');
+    console.log('Creating filter dropdowns for user interaction...');
     createFilterDropdowns();
 
-    // Create a container for the info card above the map but below the filters
+    // Create a container for the info card to display state-specific information
     const infoCardContainer = document.createElement('div');
     infoCardContainer.id = 'info-card-container';
     infoCardContainer.style.textAlign = 'center';
     infoCardContainer.style.marginBottom = '18px';
     document.body.insertBefore(infoCardContainer, document.getElementById('map'));
 
-    console.log('Creating choropleth map...');
+    console.log('Initializing choropleth map with GeoJSON data...');
     createChoroplethMap(geojson);
-    console.log('Creating markers...');
+    console.log('Creating markers for additional data visualization...');
     createMarkers();
-    console.log('Updating map...');
+    console.log('Updating map with initial data...');
     updateMap();
 
-    // Invalidate the map size to force a redraw
+    // Invalidate the map size to ensure proper rendering after dynamic content addition
     map.invalidateSize();
 })
 .catch(error => {
-    console.error('Error in data loading process:', error);
-    alert('Error loading data. Please check the console for more information.');
+    console.error('Error encountered during data loading or processing:', error);
+    alert('An error occurred while loading data. Please check the console for detailed information.');
 });
 
+// Function to create filter dropdowns for region, division, and state selection
 function createFilterDropdowns() {
     const filterContainer = d3.select('body').insert('div', '#map')
         .attr('id', 'filter-container')
@@ -80,11 +83,12 @@ function createFilterDropdowns() {
         .style('border-radius', '8px')
         .style('box-shadow', '0 2px 4px rgba(0, 0, 0, 0.1)');
 
+    // Create individual dropdowns for region, division, and state filters
     createDropdown('region', regions, filterContainer);
     createDropdown('division', divisions, filterContainer);
     createDropdown('state', states, filterContainer);
 
-    // Create reset button
+    // Create a reset button to return the map to its initial view
     filterContainer.append('button')
         .attr('id', 'reset-view')
         .text('Reset Map View')
@@ -107,7 +111,7 @@ function createFilterDropdowns() {
             resetMapView();
         });
 
-    // Style dropdowns
+    // Apply consistent styling to all dropdown menus
     d3.selectAll('#filter-container select')
         .style('padding', '8px')
         .style('font-size', '16px')
@@ -119,10 +123,12 @@ function createFilterDropdowns() {
         .style('cursor', 'pointer');
 }
 
+// Function to reset the map view to its initial state (United States overview)
 function resetMapView() {
     map.setView([37.8, -96], 4);
 }
 
+// Function to create individual dropdown menus with options and event listeners
 function createDropdown(id, options, container) {
     const select = container.append('select')
         .attr('id', id)
@@ -149,14 +155,15 @@ function createDropdown(id, options, container) {
         .text(d => d);
 }
 
+// Function to create the choropleth map using GeoJSON data and Leaflet
 function createChoroplethMap(geojson) {
-    console.log('Creating choropleth map with geojson:', geojson);
+    console.log('Creating choropleth map with GeoJSON data:', geojson);
     const colorScale = d3.scaleSequential(d3.interpolateYlOrRd)
         .domain([0, d3.max(data, d => d.total_births)]);
 
     geojsonLayer = L.geoJSON(geojson, {
         style: feature => {
-            console.log('Styling feature:', feature.properties.name);
+            console.log('Applying style to feature:', feature.properties.name);
             return {
                 fillColor: getStateColor(feature.properties.name),
                 weight: 2,
@@ -178,17 +185,20 @@ function createChoroplethMap(geojson) {
         }
     }).addTo(map);
 
+    // Helper function to determine the color for each state based on total births
     function getStateColor(stateName) {
         const stateData = data.find(d => d.state === stateName);
-        console.log('Getting color for state:', stateName, 'Data:', stateData);
+        console.log('Determining color for state:', stateName, 'Data:', stateData);
         return stateData ? colorScale(stateData.total_births) : '#ccc';
     }
 }
 
+// Function to create a layer group for markers (currently unused, but prepared for future use)
 function createMarkers() {
     markersLayer = L.layerGroup().addTo(map);
 }
 
+// Function to update the map based on selected filters (region, division, state)
 function updateMap() {
     const selectedRegion = d3.select('#region').property('value');
     const selectedDivision = d3.select('#division').property('value');
@@ -213,6 +223,7 @@ function updateMap() {
     }
 }
 
+// Function to update the choropleth map colors based on filtered data
 function updateChoropleth(filteredData, selectedRegion, selectedDivision) {
     const colorScale = d3.scaleSequential(d3.interpolateYlOrRd)
         .domain([0, d3.max(filteredData, d => d.total_births)]);
@@ -231,6 +242,7 @@ function updateChoropleth(filteredData, selectedRegion, selectedDivision) {
     });
 }
 
+// Function to update markers on the map based on filtered data (currently creates circle markers)
 function updateMarkers(filteredData) {
     markersLayer.clearLayers();
 
@@ -255,11 +267,12 @@ function updateMarkers(filteredData) {
                 Avg Birth Weight: ${parseFloat(d.avg_birth_weight_g).toFixed(2)}g
             `);
         } else {
-            console.warn(`Missing latitude or longitude for state: ${d.state}`);
+            console.warn(`Missing latitude or longitude data for state: ${d.state}`);
         }
     });
 }
 
+// Function to highlight a feature (state) on mouseover
 function highlightFeature(e) {
     const layer = e.target;
     const selectedRegion = d3.select('#region').property('value');
@@ -280,16 +293,19 @@ function highlightFeature(e) {
     }
 }
 
+// Function to reset highlight on mouseout, returning the state to its original style
 function resetHighlight(e) {
     geojsonLayer.resetStyle(e.target);
 }
 
+// Function to zoom to a feature (state) on click
 function zoomToFeature(e) {
     map.fitBounds(e.target.getBounds());
 }
 
+// Function to show an information card for a selected state
 function showInfoCard(stateName) {
-    console.log('Showing info card for state:', stateName);
+    console.log('Displaying information card for state:', stateName);
     const stateData = data.find(d => d.state === stateName);
     if (stateData) {
         const infoCard = d3.select('#info-card-container').selectAll('#info-card').data([0]);
@@ -315,12 +331,13 @@ function showInfoCard(stateName) {
             .style('max-width', '600px')
             .style('margin', '0 auto 20px auto');
     } else {
-        console.warn('No data found for state:', stateName);
+        console.warn('No data available for state:', stateName);
     }
 }
 
+// Function to display charts for a selected state using yearly data
 function showStateCharts(stateName) {
-    console.log('Showing charts for state:', stateName);
+    console.log('Generating charts for state:', stateName);
     const stateData = stateYearData.filter(d => d.state === stateName);
     if (stateData.length > 0) {
         const chartsContainer = d3.select('body').selectAll('#charts-container').data([0]);
@@ -345,7 +362,7 @@ function showStateCharts(stateName) {
             </div>
         `);
 
-        // Style for chart wrappers
+        // Apply consistent styling to chart wrappers
         d3.selectAll('.chart-wrapper')
             .style('background-color', 'white')
             .style('padding', '15px')
@@ -360,24 +377,26 @@ function showStateCharts(stateName) {
         createChart('avgMotherAgeChart', stateData, 'Average Mother Age', 'avg_age_of_mother', true);
         createChart('avgBirthWeightChart', stateData, 'Average Birth Weight (g)', 'avg_birth_weight_g', true);
     } else {
-        console.warn('No yearly data found for state:', stateName);
+        console.warn('No yearly data available for state:', stateName);
     }
 }
 
+// Function to create a chart using Chart.js library
 function createChart(canvasId, data, label, dataKey, isBarChart = false) {
     const ctx = document.getElementById(canvasId).getContext('2d');
     
-    // Check if Chart.js is loaded
+    // Verify Chart.js library is loaded
     if (typeof Chart === 'undefined') {
-        console.error('Chart.js is not loaded. Please include the Chart.js library in your HTML file.');
+        console.error('Chart.js library is not loaded. Please include the Chart.js library in your HTML file.');
         return;
     }
 
-    // Destroy existing chart if it exists
+    // Destroy existing chart instance if it exists to prevent duplicates
     if (window[canvasId] instanceof Chart) {
         window[canvasId].destroy();
     }
 
+    // Create new chart instance
     window[canvasId] = new Chart(ctx, {
         type: isBarChart ? 'bar' : 'line',
         data: {

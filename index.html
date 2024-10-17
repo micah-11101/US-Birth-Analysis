@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags for character encoding and responsive design -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Page title -->
     <title>CDC US Births Data 2016-2021</title>
+    
+    <!-- External CSS stylesheets -->
     <link rel="stylesheet" href="/static/styles.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    
+    <!-- External JavaScript libraries -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Inline CSS for header styling -->
     <style>
+        /* Header container styling */
         .header {
             background-color: #f8f9fa;
             border: 1px solid #dee2e6;
@@ -19,6 +29,7 @@
             margin-bottom: 20px;
             text-align: center;
         }
+        /* Header title styling */
         .header h1 {
             margin: 0;
             color: #077d8c;
@@ -27,10 +38,15 @@
     </style>
 </head>
 <body>
+    <!-- Header section -->
     <div class="header">
         <h1>CDC US Births Data 2016-2021</h1>
     </div>
+    
+    <!-- Map container -->
     <div id="map"></div>
+    
+    <!-- Main JavaScript file for functionality -->
     <script src="/static/script.js"></script>
 </body>
 </html>
