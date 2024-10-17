@@ -16,11 +16,14 @@ The first step we took in cleaning our data was checking for null values and dup
 We began by examining the average birth weight of babies and the average age of mothers at birth.
 
 After plotting the data on average birth weight, we concluded that there is a slight decrease in average birth weight over time.
+
 ![alt text](Visuals/AverageBirthWeightbyYear.png)
 
 After plotting the data on the average age of mothers, we concluded that the average age of mothers is increasing over time.
+
 ![alt text](Visuals/AverageMothersAgebyYear.png)
 
 We then plotted the number of births in the U.S. by year and concluded that the number of births has been declining over time.
+
 ![alt text](Visuals/TotalBirthsUS.png)
 
