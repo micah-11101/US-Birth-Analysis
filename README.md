@@ -27,3 +27,9 @@ We then plotted the number of births in the U.S. by year and concluded that the 
 
 ![alt text](Visuals/TotalBirthsUS.png)
 
+# Contributors
+Kat
+Mackenzie
+Micah
+Sergei
+# License
