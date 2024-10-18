@@ -8,6 +8,13 @@ An in-depth analysis of U.S. births from 2016 to 2021, using JavaScript to creat
 # Obtaining the Data
 Our data was pulled from the CDC's WONDER search tool, which provides access to the CDC's public information. The data is gathered through the U.S. birth registration system and does not include births occurring to U.S. citizens or residents outside the United States. Our dataset tracks births from the years 2016 to 2021.
 
+## Overview and Purpose
+
+This project aims to tell a compelling story about US demographics using interactive data visualizations. By combining census data with geographical information, we've created a dynamic web application that allows users to explore population trends, birth rates, and other demographic factors across different states, regions, and divisions of the United States.
+
+The purpose of this project is to make complex demographic data more accessible and understandable to users of all levels, from casual browsers to policy makers. By providing interactive visualizations and filtering options, we enable users to discover insights and patterns that might not be apparent from raw data alone.
+
+
 ## Data Sources
 
 - CDC WONDER: https://wonder.cdc.gov/
@@ -69,18 +76,12 @@ Based on these findings, the dataset was deemed to pass the data quality checks 
 
 # US Census Data Visualization Project
 
-## Overview and Purpose
-
-This project aims to tell a compelling story about US demographics using interactive data visualizations. By combining census data with geographical information, we've created a dynamic web application that allows users to explore population trends, birth rates, and other demographic factors across different states, regions, and divisions of the United States.
-
-The purpose of this project is to make complex demographic data more accessible and understandable to users of all levels, from casual browsers to policy makers. By providing interactive visualizations and filtering options, we enable users to discover insights and patterns that might not be apparent from raw data alone.
-
 ## Features
 
 - Interactive choropleth map of the United States
 - Filtering options by region, division, and state
 - Pop-up information cards for each state
-- Time series line and barcharts for selected states
+- Time series line and barcharts showing specific time series data for selected states
 - Responsive design for various screen sizes
 
 ## Technologies Used
@@ -97,7 +98,7 @@ The purpose of this project is to make complex demographic data more accessible 
 1. Clone the repository
 2. Install required Python packages: `pip install -r requirements.txt`
 3. Set up a PostgreSQL database with schema SQL script `CreateSchema.sql`
-4. Update the table with `merged_us_births_data_2016_2021`
+4. Load to Update the table with `merged_us_births_data_2016_2021`
 5. Run the Data ingestion script: `api_calls.py`
 6. Run the HTML file: `index.html`
 7. Open `http://localhost:5000` in a web browser
@@ -118,9 +119,8 @@ The purpose of this project is to make complex demographic data more accessible 
 
 1. Use the dropdown menus at the top of the page to filter data by region, division, or state
 2. Click on states in the map to view detailed information in the pop-up card
-3. When a state is selected, scroll down to view time series charts of birth rates and other demographic factors
-4. Use the "Reset Map View" button to return to the initial nationwide view
-5. Hover over data points in the charts for precise values
+3. When a state is selected, scroll down to view time series charts of birth rates/weights and other demographic factors
+4. Use the "Reset Map View" button to return to the initial centered nation-wide view
 
 ## Ethical Considerations
 
@@ -128,7 +128,7 @@ In developing this project, we made several ethical considerations:
 
 1. Data Privacy: We ensured that all data used is aggregated and anonymized, with no personally identifiable information included.
 2. Accessibility: We designed the interface to be accessible to users with various abilities, including color-blind friendly color schemes and limited keyboard navigation.
-3. Data Accuracy: We've provided clear references to our data sources and information about the origin of the data collection. 
+3. Data Accuracy: We've provided clear references to our data sources and information about the origin of the data collection.
 4. Avoiding Bias: We've made efforts to present data objectively, without leading visualizations or commentary that might introduce bias in interpretation.
 5. Data Validation: We've made efforts to validate the visualized data and ensure that it is accurate and up to date.
 
@@ -139,27 +139,63 @@ Python analysis explored various aspects of US birth data, including temporal tr
 1. **Data Loading and Preparation**
    - Loaded US birth dataset (2016-2021)
    - Used pandas for data manipulation
-   - Merged datasets to include regional information
+   - Merged datasets to include regional information `merged_us_births_data_2016_2021.csv`
 
 2. **Time Series Analysis**
    - Analyzed average birth weight trends (2016-2021)
    - Created line plot of average birth weight over time
 
+<div style="display: flex; justify-content: center; margin: 20px 0;">
+  <img src="Visuals/AverageBirthWeightbyYear.png" alt="Average Birth Weight by Year" style="max-width: 100%; border: 2px solid #ddd; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+</div>
+
+ - Create a line plot time series showing total births over time for the nation
+
+<div style="display: flex; justify-content: center; margin: 20px 0;">
+  <img src="Visuals/BirthsbyYearandSex.png" alt="Births by Year and Sex" style="max-width: 100%; border: 2px solid #ddd; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+</div>
+
 3. **Maternal Age Analysis**
-   - Examined average maternal age trend (2016-2021)
+   - Examined average maternal age trend and age distribution (2016-2021)
+
+<div style="display: flex; justify-content: center; margin: 20px 0;">
+  <img src="Visuals/DistributionofMothersAge.png" alt="Distribution of Mother's Age" style="max-width: 100%; border: 2px solid #ddd; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+</div>
+
    - Plotted line graph of average maternal age over years
+
+   <div style="display: flex; justify-content: center; margin: 20px 0;">
+     <img src="Visuals/AverageMothersAgebyYear.png" alt="Average Mother's Age by Year" style="max-width: 100%; border: 2px solid #ddd; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+   </div>
 
 4. **Correlation Analysis**
    - Investigated maternal age and birth weight relationship
    - Created scatter plot with regression line
 
+   <div style="display: flex; justify-content: center; margin: 20px 0;">
+     <img src="Visuals/MotherAgeandBabyWeightScatter.png" alt="Mother Age and Baby Weight Scatter Plot" style="max-width: 100%; border: 2px solid #ddd; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+   </div>
+
 5. **Gender-based Analysis**
-   - Compared birth weights between male and female newborns
-   - Created box plot of average birth weights by gender
+   - Created whisker plot of average birth weights by gender
+
+<div style="display: flex; justify-content: center; margin: 20px 0;">
+  <img src="Visuals/whisker_plot_birth_weights.png" alt="Whisker Plot of Birth Weights" style="max-width: 100%; border: 2px solid #ddd; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+</div>
 
 6. **Geographical Analysis**
-   - Examined birth weight patterns across US states
+   - Examined birth weight patterns across US Regions
+
+<div style="display: flex; justify-content: center; margin: 20px 0;">
+  <img src="Visuals/stacked_area_chart.png" alt="Stacked Area Chart" style="max-width: 100%; border: 2px solid #ddd; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+</div>
+
    - Developed heatmaps of average birth weights by state and gender
+   - Compared birth weights between male and female newborns
+
+<div style="display: flex; justify-content: center; margin: 20px 0;">
+  <img src="Visuals/heatmap_birth_weights.png" alt="Heatmap of Birth Weights" style="max-width: 100%; border: 2px solid #ddd; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+</div>
 
 ## Data Sources
 
