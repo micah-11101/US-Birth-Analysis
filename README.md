@@ -130,11 +130,12 @@ Based on these findings, the dataset was deemed to pass the data quality checks 
 
 In developing this project, we made several ethical considerations:
 
-1. Data Privacy: We ensured that all data used is aggregated and anonymized, with no personally identifiable information included.
-2. Accessibility: We designed the interface to be accessible to users with various abilities, including color-blind friendly color schemes and limited keyboard navigation.
-3. Data Accuracy: We've provided clear references to our data sources and information about the origin of the data collection.
-4. Avoiding Bias: We've made efforts to present data objectively, without leading visualizations or commentary that might introduce bias in interpretation.
-5. Data Validation: We've made efforts to validate the visualized data and ensure that it is accurate and up to date.
+	1.	Data Privacy: We ensured that all data used is aggregated and anonymized, with no personally identifiable information included.
+	2.	Accessibility: We designed the interface to be accessible to users with various abilities, including color-blind friendly color schemes and limited keyboard navigation.
+	3.	Data Accuracy: We’ve provided clear references to our data sources and information about the origin of the data collection.
+	4.	Avoiding Bias: We’ve made efforts to present data objectively, without leading visualizations or commentary that might introduce bias in interpretation.
+	5.	Data Validation: We validated our visualizations by pivoting the original data source using Power Query in Excel and checking the results against our index.html visualizations to ensure consistency and accuracy.
+	6.	Ethical Use of Data: Our analysis adheres to the ethical principles outlined by the CDC in public health. The birth rates data, sourced from the CDC, is accurate and credible. We prioritize transparency and responsibility by ensuring our conclusions are backed by solid research and trusted sources. Since public health decisions can impact entire communities, we carefully consider the broader implications of our work, aligning with the CDC’s ethical approach to public health actions.
 
 ## Additional Python Analysis 
 
