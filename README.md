@@ -130,12 +130,12 @@ Based on these findings, the dataset was deemed to pass the data quality checks 
 
 In developing this project, we made several ethical considerations:
 
-	1.	Data Privacy: We ensured that all data used is aggregated and anonymized, with no personally identifiable information included.
-	2.	Accessibility: We designed the interface to be accessible to users with various abilities, including color-blind friendly color schemes and limited keyboard navigation.
-	3.	Data Accuracy: We’ve provided clear references to our data sources and information about the origin of the data collection.
-	4.	Avoiding Bias: We’ve made efforts to present data objectively, without leading visualizations or commentary that might introduce bias in interpretation.
-	5.	Data Validation: We validated our visualizations by pivoting the original data source using Power Query in Excel and checking the results against our index.html visualizations to ensure consistency and accuracy.
-	6.	Ethical Use of Data: Our analysis adheres to the ethical principles outlined by the CDC in public health. The birth rates data, sourced from the CDC, is accurate and credible. We prioritize transparency and responsibility by ensuring our conclusions are backed by solid research and trusted sources. Since public health decisions can impact entire communities, we carefully consider the broader implications of our work, aligning with the CDC’s ethical approach to public health actions.
+1.	Data Privacy: We ensured that all data used is aggregated and anonymized, with no personally identifiable information included.
+2.	Accessibility: We designed the interface to be accessible to users with various abilities, including color-blind friendly color schemes and limited keyboard navigation.
+3.	Data Accuracy: We’ve provided clear references to our data sources and information about the origin of the data collection.
+4.	Avoiding Bias: We’ve made efforts to present data objectively, without leading visualizations or commentary that might introduce bias in interpretation.
+5.	Data Validation: We validated our visualizations by pivoting the original data source using Power Query in Excel and checking the results against our index.html visualizations to ensure consistency and accuracy.
+6.	Ethical Use of Data: Our analysis adheres to the ethical principles outlined by the CDC in public health. The birth rates data, sourced from the CDC, is accurate and credible. We prioritize transparency and responsibility by ensuring our conclusions are backed by solid research and trusted sources. Since public health decisions can impact entire communities, we carefully consider the broader implications of our work, aligning with the CDC’s ethical approach to public health actions.
 
 ## Additional Python Analysis 
 
@@ -241,6 +241,50 @@ Python analysis explored various aspects of US birth data, including temporal tr
 ## CONCLUSION
 
 These findings have important implications for public health policy, healthcare resource allocation, and demographic research. The significant regional and state-level variations in birth rates and birth weights suggest the need for tailored approaches to maternal and infant health care across different parts of the United States.
+
+## Additional Visualizations Considered for Future Analysis 
+
+1. **Heatmap of Birth Rates**: 
+   - Create a heatmap showing birth rates per 1,000 population for each state over time.
+   - Use a color gradient to represent the intensity of birth rates.
+   - Allow users to animate the heatmap to see changes over years.
+
+2. **Bubble Chart of State Demographics**:
+   - Create a bubble chart where each bubble represents a state.
+   - Use bubble size to represent total births.
+   - Use x-axis for average mother age and y-axis for average birth weight.
+   - Color-code bubbles by region or division.
+
+3. **Stacked Bar Chart of Birth Characteristics**:
+   - Create a stacked bar chart showing the proportion of births by characteristics like:
+     - Mother's age group (e.g., under 20, 20-24, 25-29, 30-34, 35+)
+     - Birth weight categories (e.g., low, normal, high)
+     - Delivery method (e.g., vaginal, C-section)
+   - Allow users to switch between different characteristics.
+
+4. **Time Series Line Chart with Multiple Metrics**:
+   - Create a multi-line chart showing trends over time for key metrics:
+    - Total births
+     - Average mother age
+     - Average birth weight
+   - Include option to normalize values to see relative changes.
+
+5. **Choropleth Map with Selectable Metrics**:
+   - Enhance the existing choropleth map to allow users to switch between different metrics:
+     - Total births
+     - Birth rate per 1,000 population
+     - Average mother age
+     - Average birth weight
+   - Update color scale and legend dynamically based on selected metric.
+
+6. **Scatterplot Matrix**:
+   - Create a scatterplot matrix to visualize relationships between multiple variables:
+     - Total births
+     - Average mother age
+     - Average birth weight
+     - Median household income (if available)
+     - Education level (if available)
+   - Allow users to select which variables to include in the matrix.
 
 ## Data Sources
 
