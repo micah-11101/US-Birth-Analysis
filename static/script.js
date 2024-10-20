@@ -9,7 +9,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 console.log('OpenStreetMap tile layer added to the map');
 
 // Declare global variables to be used throughout the script for data management and visualization
-let geojsonLayer, markersLayer, data, regions, divisions, states, stateYearData;
+let geojsonLayer, data, regions, divisions, states, stateYearData;
 
 // Style the map container for better visual presentation
 const mapContainer = document.getElementById('map');
@@ -56,8 +56,6 @@ Promise.all([
 
     console.log('Initializing choropleth map with GeoJSON data...');
     createChoroplethMap(geojson);
-    console.log('Creating markers for additional data visualization...');
-    createMarkers();
     console.log('Updating map with initial data...');
     updateMap();
 
@@ -193,11 +191,6 @@ function createChoroplethMap(geojson) {
     }
 }
 
-// Function to create a layer group for markers (currently unused, but prepared for future use)
-function createMarkers() {
-    markersLayer = L.layerGroup().addTo(map);
-}
-
 // Function to update the map based on selected filters (region, division, state)
 function updateMap() {
     const selectedRegion = d3.select('#region').property('value');
@@ -211,7 +204,6 @@ function updateMap() {
     );
 
     updateChoropleth(filteredData, selectedRegion, selectedDivision);
-    updateMarkers(filteredData);
 
     // Show info card and charts for selected state, hide otherwise
     if (selectedState !== '') {
@@ -239,36 +231,6 @@ function updateChoropleth(filteredData, selectedRegion, selectedDivision) {
             fillColor: isInSelectedRegionOrDivision ? colorScale(stateData.total_births) : '#ccc',
             fillOpacity: isInSelectedRegionOrDivision ? 0.7 : 0.3
         });
-    });
-}
-
-// Function to update markers on the map based on filtered data (currently creates circle markers)
-function updateMarkers(filteredData) {
-    markersLayer.clearLayers();
-
-    filteredData.forEach(d => {
-        // Check if latitude and longitude are present in the data
-        if (d.latitude && d.longitude) {
-            const marker = L.circleMarker([d.latitude, d.longitude], {
-                radius: 5,
-                fillColor: '#ff7800',
-                color: '#000',
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.8
-            }).addTo(markersLayer);
-
-            marker.bindPopup(`
-                <strong>${d.state}</strong><br>
-                Region: ${d.region}<br>
-                Division: ${d.division}<br>
-                Total Births: ${d.total_births.toLocaleString()}<br>
-                Avg Mother Age: ${parseFloat(d.avg_age_of_mother).toFixed(2)}<br>
-                Avg Birth Weight: ${parseFloat(d.avg_birth_weight_g).toFixed(2)}g
-            `);
-        } else {
-            console.warn(`Missing latitude or longitude data for state: ${d.state}`);
-        }
     });
 }
 

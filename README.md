@@ -6,11 +6,11 @@
 An in-depth analysis of U.S. births from 2016 to 2021, using JavaScript to create interactive visualizations.
 
 # Obtaining the Data
-Our data was pulled from the CDC's WONDER search tool, which provides access to the CDC's public information. The data is gathered through the U.S. birth registration system and does not include births occurring to U.S. citizens or residents outside the United States. Our dataset tracks births from the years 2016 to 2021.
+Our data was pulled from Kaggle which was originally sourced from the CDC's WONDER search tool, which provides access to the CDC's public information. The data is gathered through the U.S. birth registration system and does not include births occurring to U.S. citizens or residents outside the United States. Our dataset tracks births from the years 2016 to 2021.
 
 ## Overview and Purpose
 
-This project aims to tell a compelling story about US demographics using interactive data visualizations. By combining census data with geographical information, we've created a dynamic web application that allows users to explore population trends, birth rates, and other demographic factors across different states, regions, and divisions of the United States.
+This project aims to tell a compelling story about US birth demographics using interactive data visualizations. By combining census data with geographical information, we've created a dynamic web application that allows users to explore population trends, birth rates, and other demographic factors across different states, regions, and divisions of the United States.
 
 The purpose of this project is to make complex demographic data more accessible and understandable to users of all levels, from casual browsers to policy makers. By providing interactive visualizations and filtering options, we enable users to discover insights and patterns that might not be apparent from raw data alone.
 
@@ -122,6 +122,10 @@ Based on these findings, the dataset was deemed to pass the data quality checks 
 3. When a state is selected, scroll down to view time series charts of birth rates/weights and other demographic factors
 4. Use the "Reset Map View" button to return to the initial centered nation-wide view
 
+<div style="display: flex; justify-content: center; margin: 20px 0;">
+  <img src="Visuals/Webpage_snapshot.jpg" alt="Webpage snapshot" style="max-width: 100%; border: 2px solid #ddd; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+</div>
+
 ## Ethical Considerations
 
 In developing this project, we made several ethical considerations:
@@ -134,12 +138,12 @@ In developing this project, we made several ethical considerations:
 
 ## Additional Python Analysis 
 
-Python analysis explored various aspects of US birth data, including temporal trends, geographical variations, and relationships between variables like maternal age and birth weight. Analyses used various data visualization techniques including line plots, scatter plots, box plots, and heatmaps to effectively present findings.
+Python analysis explored various aspects of US birth data, including temporal trends, geographical variations, and relationships between variables like maternal age and birth weight. Analyses used various data visualization techniques including line plots, scatter plots, box plots, and heatmaps to effectively present findings. Find the additional python analysis in the `Data_analysis.ipynb` file.
 
 1. **Data Loading and Preparation**
    - Loaded US birth dataset (2016-2021)
    - Used pandas for data manipulation
-   - Merged datasets to include regional information `merged_us_births_data_2016_2021.csv`
+   - Merged dataset `US State Divisions & Regions` to include regional information `merged_us_births_data_2016_2021.csv`
 
 2. **Time Series Analysis**
    - Analyzed average birth weight trends (2016-2021)
@@ -197,6 +201,46 @@ Python analysis explored various aspects of US birth data, including temporal tr
   <img src="Visuals/heatmap_birth_weights.png" alt="Heatmap of Birth Weights" style="max-width: 100%; border: 2px solid #ddd; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
 </div>
 
+## US Birth Data Analysis (2016-2021) - Conclusion & Key Findings
+
+### 1. Regional Birth Trends
+
+- The ANOVA test revealed statistically significant differences in birth rates among US regions (F-statistic: 867.3104, p-value: 1.2196e-46).
+- This suggests that geographical factors play a crucial role in birth rate variations across the country.
+
+### 2. Regional Growth Rates
+
+- Compound Annual Growth Rate (CAGR) analysis showed varying trends across regions:
+  - Some regions experienced positive growth (e.g., Mountain, South Atlantic)
+  - Others saw negative growth (e.g., East North Central, Middle Atlantic)
+- The overall CAGR for the entire country was negative, indicating a general decline in birth rates from 2016 to 2021.
+
+### 3. Birth Weight Analysis by Gender and State
+
+- Consistent differences in birth weights between males and females were observed across states.
+- Male infants generally had higher birth weights compared to female infants.
+- The box plot visualization showed:
+  - A clear separation between male and female birth weight distributions
+  - Slightly larger variability in male birth weights
+- Heatmap analysis revealed:
+  - Variations in birth weights across states for both genders
+  - Some states consistently ranked higher or lower in birth weights for both genders
+  - Midwestern states generally had higher birth weights compared to other regions
+
+### 4. State-Level Birth Trends
+
+- A choropleth map visualization highlighted significant variations in average annual births across states.
+- The top 10 states with the highest average births were identified, with California, Texas, and New York leading the list.
+
+### 5. Educational and Age Factors
+
+- The analysis included visualizations of birth rates by mother's education level and age, suggesting these factors influence birth trends.
+- A positive correlation was observed between mother's age and birth weight.
+
+## CONCLUSION
+
+These findings have important implications for public health policy, healthcare resource allocation, and demographic research. The significant regional and state-level variations in birth rates and birth weights suggest the need for tailored approaches to maternal and infant health care across different parts of the United States.
+
 ## Data Sources
 
 - US Census Bureau API: https://www.census.gov/data/developers/data-sets.html
@@ -208,6 +252,21 @@ Python analysis explored various aspects of US birth data, including temporal tr
 - D3.js documentation: https://github.com/d3/d3/wiki
 - Chart.js documentation: https://www.chartjs.org/docs/latest/
 - Flask documentation: https://flask.palletsprojects.com/
+- Javascript documentation: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+- Javascript Dropdown Menu: https://www.w3schools.com/howto/howto_js_dropdown.asp
+- Javascript Map Container: https://leafletjs.com/examples/quick-start/
+- Javascript Popup Card: https://leafletjs.com/examples/popup/
+- Javascript Buttons: https://www.w3schools.com/howto/howto_js_accordion.asp
+- Javascript Event Listeners: https://www.w3schools.com/js/js_htmldom_eventlistener.asp
+- Javascript Styling: https://www.w3schools.com/css/css_website_layout.asp
+- Javascript D3 Scales: https://d3js.org/d3-scale
+- Javascript Choropleth Map: https://leafletjs.com/examples/choropleth/
+- Javascipt Update Map on Mouseover: https://leafletjs.com/examples/choropleth/
+- Javascript Update Markers on Click: https://leafletjs.com/examples/marker/
+- Javascript Bind Popup: https://leafletjs.com/reference.html#popup
+- Javascript Add Layers: https://leafletjs.com/reference.html#map-addlayer
+- Javascript Add Chart using Chart.js: https://www.chartjs.org/docs/latest/getting-started/usage.html
+
 
 ## Contributors
 

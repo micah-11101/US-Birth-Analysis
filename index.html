@@ -35,6 +35,14 @@
             color: #077d8c;
             font-size: 2.5em;
         }
+        /* Footer styling */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -45,6 +53,16 @@
     
     <!-- Map container -->
     <div id="map"></div>
+    
+    <!-- Charts container -->
+    <div id="charts"></div>
+    
+    <!-- Footer with data source links -->
+    <div class="footer">
+        <p>Data Sources:</p>
+        <a href="https://wonder.cdc.gov/" target="_blank">CDC WONDER</a> |
+        <a href="https://www.kaggle.com/datasets/danbraswell/temporary-us-births" target="_blank">Kaggle: US Births Dataset</a>
+    </div>
     
     <!-- Main JavaScript file for functionality -->
     <script src="/static/script.js"></script>
