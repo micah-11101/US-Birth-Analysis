@@ -328,8 +328,6 @@ These findings have important implications for public health policy, healthcare 
 - Javascript D3 Scales: https://d3js.org/d3-scale
 - Javascript Choropleth Map: https://leafletjs.com/examples/choropleth/
 - Javascipt Update Map on Mouseover: https://leafletjs.com/examples/choropleth/
-- Javascript Update Markers on Click: https://leafletjs.com/examples/marker/
-- Javascript Bind Popup: https://leafletjs.com/reference.html#popup
 - Javascript Add Layers: https://leafletjs.com/reference.html#map-addlayer
 - Javascript Add Chart using Chart.js: https://www.chartjs.org/docs/latest/getting-started/usage.html
 
