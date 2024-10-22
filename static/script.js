@@ -54,6 +54,12 @@ Promise.all([
     infoCardContainer.style.marginBottom = '18px';
     document.body.insertBefore(infoCardContainer, document.getElementById('map'));
 
+    // Create a container for the charts
+    const chartsContainer = document.createElement('div');
+    chartsContainer.id = 'charts-container';
+    chartsContainer.style.display = 'none'; // Initially hidden
+    document.body.insertBefore(chartsContainer, document.getElementById('map'));
+
     console.log('Initializing choropleth map with GeoJSON data...');
     createChoroplethMap(geojson);
     console.log('Updating map with initial data...');
@@ -302,17 +308,15 @@ function showStateCharts(stateName) {
     console.log('Generating charts for state:', stateName);
     const stateData = stateYearData.filter(d => d.state === stateName);
     if (stateData.length > 0) {
-        const chartsContainer = d3.select('body').selectAll('#charts-container').data([0]);
-        const chartsContainerEnter = chartsContainer.enter().append('div').attr('id', 'charts-container');
-        const chartsContainerUpdate = chartsContainer.merge(chartsContainerEnter);
-
-        chartsContainerUpdate
+        const chartsContainer = d3.select('#charts-container');
+        chartsContainer
             .style('display', 'flex')
             .style('justify-content', 'center')
             .style('flex-wrap', 'wrap')
-            .style('margin-top', '20px');
+            .style('margin-top', '20px')
+            .style('margin-bottom', '20px');
 
-        chartsContainerUpdate.html(`
+        chartsContainer.html(`
             <div class="chart-wrapper">
                 <canvas id="totalBirthsChart"></canvas>
             </div>
