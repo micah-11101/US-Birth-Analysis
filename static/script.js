@@ -9,7 +9,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 console.log('OpenStreetMap tile layer added to the map');
 
 // Declare global variables to be used throughout the script for data management and visualization
-let geojsonLayer, data, regions, divisions, states, stateYearData;
+let geojsonLayer, data, regions, divisions, states, stateYearData, legend;
 
 // Style the map container for better visual presentation
 const mapContainer = document.getElementById('map');
@@ -64,6 +64,9 @@ Promise.all([
     createChoroplethMap(geojson);
     console.log('Updating map with initial data...');
     updateMap();
+
+    // Create and add the legend to the map
+    createLegend();
 
     // Invalidate the map size to ensure proper rendering after dynamic content addition
     map.invalidateSize();
@@ -197,6 +200,36 @@ function createChoroplethMap(geojson) {
     }
 }
 
+// Function to create and add the legend to the map
+function createLegend() {
+    if (legend) {
+        map.removeControl(legend);
+    }
+
+    legend = L.control({position: 'bottomright'});
+
+    legend.onAdd = function (map) {
+        const div = L.DomUtil.create('div', 'info legend');
+        const grades = [0, 100000, 200000, 300000, 400000, 500000];
+        const labels = [];
+        let from, to;
+
+        for (let i = 0; i < grades.length; i++) {
+            from = grades[i];
+            to = grades[i + 1];
+
+            labels.push(
+                '<i style="background:' + d3.interpolateYlOrRd(from / 500000) + '"></i> ' +
+                from + (to ? '&ndash;' + to : '+') + ' births');
+        }
+
+        div.innerHTML = labels.join('<br>');
+        return div;
+    };
+
+    legend.addTo(map);
+}
+
 // Function to update the map based on selected filters (region, division, state)
 function updateMap() {
     const selectedRegion = d3.select('#region').property('value');
@@ -219,6 +252,9 @@ function updateMap() {
         d3.select('#info-card').style('display', 'none');
         d3.select('#charts-container').style('display', 'none');
     }
+
+    // Update the legend
+    createLegend();
 }
 
 // Function to update the choropleth map colors based on filtered data
@@ -397,3 +433,22 @@ function createChart(canvasId, data, label, dataKey, isBarChart = false) {
 window.addEventListener('resize', function() {
     map.invalidateSize();
 });
+
+// Add CSS for the legend
+const style = document.createElement('style');
+style.textContent = `
+    .info.legend {
+        background: white;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    }
+    .info.legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+`;
+document.head.appendChild(style);

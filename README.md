@@ -72,6 +72,7 @@ The purpose of this project is to make complex demographic data more accessible 
 - Total births by year showed a consistent pattern
 
 Based on these findings, the dataset was deemed to pass the data quality checks without requiring further modifications or transformations.
+The data cleaning process code can be found in the `Data_Cleaning.ipynb` file.
 
 
 # US Census Data Visualization Project
@@ -97,7 +98,7 @@ Based on these findings, the dataset was deemed to pass the data quality checks 
 
 1. Clone the repository
 2. Install required Python packages: `pip install -r requirements.txt`
-3. Set up a PostgreSQL database with schema SQL script `CreateSchema.sql`
+3. Set up a PostgreSQL database with the following schema SQL script `CreateSchema.sql`
 4. Load to Update the table with `merged_us_births_data_2016_2021`
 5. Run the Data ingestion script: `api_calls.py`
 6. Run the HTML file: `index.html`
@@ -119,7 +120,7 @@ Based on these findings, the dataset was deemed to pass the data quality checks 
 
 1. Use the dropdown menus at the top of the page to filter data by region, division, or state
 2. Click on states in the map to view detailed information in the pop-up card
-3. When a state is selected, scroll down to view time series charts of birth rates/weights and other demographic factors
+3. When a state is selected, view time series and bar chart of birth rates/weights and other demographic factors below info. card
 4. Use the "Reset Map View" button to return to the initial centered nation-wide view
 
 <div style="display: flex; justify-content: center; margin: 20px 0;">
@@ -158,6 +159,8 @@ Python analysis explored various aspects of US birth data, including temporal tr
 7. Is there a correlation between a mother's age and birth weight?
 
 8. What is the overall trend in birth rates for the entire country from 2016 to 2021?
+
+### Analysis Process 
 
 1. **Data Loading and Preparation**
    - Loaded US birth dataset (2016-2021)
@@ -309,7 +312,7 @@ These findings have important implications for public health policy, healthcare 
 - US Census Bureau API: https://www.census.gov/data/developers/data-sets.html
 - GeoJSON data for US state boundaries: https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json
 
-## References
+## Code References
 
 - Leaflet.js documentation: https://leafletjs.com/reference.html
 - D3.js documentation: https://github.com/d3/d3/wiki
