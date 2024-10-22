@@ -141,6 +141,24 @@ In developing this project, we made several ethical considerations:
 
 Python analysis explored various aspects of US birth data, including temporal trends, geographical variations, and relationships between variables like maternal age and birth weight. Analyses used various data visualization techniques including line plots, scatter plots, box plots, and heatmaps to effectively present findings. Find the additional python analysis in the `Data_analysis.ipynb` file.
 
+### Addressed Questions
+
+1. Are there significant regional differences in birth rates across the United States?
+
+2. How have birth rates changed over time in different regions?
+
+3. Are there differences in birth weights between male and female infants?
+
+4. How do birth weights vary across different states?
+
+5. Which states have the highest average annual births?
+
+6. Is there a relationship between a mother's education level and birth trends?
+
+7. Is there a correlation between a mother's age and birth weight?
+
+8. What is the overall trend in birth rates for the entire country from 2016 to 2021?
+
 1. **Data Loading and Preparation**
    - Loaded US birth dataset (2016-2021)
    - Used pandas for data manipulation
