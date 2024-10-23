@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS us_births_data_2016_2021;
 
--- Create the table
+-- Create the table schema for the US Births Data 2016-2021
 CREATE TABLE us_births_data_2016_2021 (
     state VARCHAR(50) NOT NULL,
     state_abbreviation VARCHAR(2) NOT NULL,

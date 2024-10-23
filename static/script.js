@@ -60,9 +60,14 @@ Promise.all([
     chartsContainer.style.display = 'none'; // Initially hidden
     document.body.insertBefore(chartsContainer, document.getElementById('map'));
 
+    // Log the initialization of the choropleth map
     console.log('Initializing choropleth map with GeoJSON data...');
+    // Create the choropleth map using the GeoJSON data
     createChoroplethMap(geojson);
+    
+    // Log the update of the map with initial data
     console.log('Updating map with initial data...');
+    // Update the map with the initial dataset
     updateMap();
 
     // Create and add the legend to the map
@@ -153,13 +158,16 @@ function createDropdown(id, options, container) {
             }
         });
 
+    // Add a default "All" option to the dropdown
     select.append('option').text(`All ${id}s`).attr('value', '');
+
+    // Create and append options for each item in the options array
     select.selectAll('option.item')
         .data(options)
         .enter()
         .append('option')
-        .attr('value', d => d)
-        .text(d => d);
+        .attr('value', d => d)  // Set the value attribute to the option data
+        .text(d => d);          // Set the displayed text to the option data
 }
 
 // Function to create the choropleth map using GeoJSON data and Leaflet
@@ -206,27 +214,35 @@ function createLegend() {
         map.removeControl(legend);
     }
 
+    // Create a new Leaflet control for the legend
     legend = L.control({position: 'bottomright'});
 
+    // Define the onAdd method for the legend control
     legend.onAdd = function (map) {
+        // Create a new div element for the legend
         const div = L.DomUtil.create('div', 'info legend');
+        // Define the birth count ranges for the legend
         const grades = [0, 100000, 200000, 300000, 400000, 500000];
         const labels = [];
         let from, to;
 
+        // Generate legend labels for each range
         for (let i = 0; i < grades.length; i++) {
             from = grades[i];
             to = grades[i + 1];
 
+            // Create a label with a color swatch and text
             labels.push(
                 '<i style="background:' + d3.interpolateYlOrRd(from / 500000) + '"></i> ' +
                 from + (to ? '&ndash;' + to : '+') + ' births');
         }
 
+        // Join the labels with line breaks and set as the div's content
         div.innerHTML = labels.join('<br>');
         return div;
     };
 
+    // Add the legend control to the map
     legend.addTo(map);
 }
 
@@ -262,15 +278,22 @@ function updateChoropleth(filteredData, selectedRegion, selectedDivision) {
     const colorScale = d3.scaleSequential(d3.interpolateYlOrRd)
         .domain([0, d3.max(filteredData, d => d.total_births)]);
 
+    // Iterate through each layer (state) in the geojsonLayer
     geojsonLayer.eachLayer(layer => {
+        // Extract the state name from the layer's properties
         const stateName = layer.feature.properties.name;
+        // Find the corresponding data for this state in the filtered dataset
         const stateData = filteredData.find(d => d.state === stateName);
+        // Check if the state is in the selected region or division
         const isInSelectedRegionOrDivision = stateData && 
             (selectedRegion === '' || stateData.region === selectedRegion) &&
             (selectedDivision === '' || stateData.division === selectedDivision);
 
+        // Set the style for the layer based on whether it's in the selected region/division
         layer.setStyle({
+            // If in selected region/division, use color scale; otherwise, use gray
             fillColor: isInSelectedRegionOrDivision ? colorScale(stateData.total_births) : '#ccc',
+            // If in selected region/division, use higher opacity; otherwise, use lower opacity
             fillOpacity: isInSelectedRegionOrDivision ? 0.7 : 0.3
         });
     });
@@ -284,15 +307,18 @@ function highlightFeature(e) {
     const stateName = layer.feature.properties.name;
     const stateData = data.find(d => d.state === stateName);
 
+    // Check if the state data exists and if it's in the selected region/division
     if (stateData &&
         (selectedRegion === '' || stateData.region === selectedRegion) &&
         (selectedDivision === '' || stateData.division === selectedDivision)) {
+        // Apply highlight style to the layer
         layer.setStyle({
-            weight: 5,
-            color: '#666',
-            dashArray: '',
-            fillOpacity: 0.7
+            weight: 5,          // Increase border weight
+            color: '#666',      // Set border color to dark gray
+            dashArray: '',      // Remove any dash pattern from the border
+            fillOpacity: 0.7    // Increase fill opacity for emphasis
         });
+        // Bring the highlighted layer to the front
         layer.bringToFront();
     }
 }
@@ -309,13 +335,19 @@ function zoomToFeature(e) {
 
 // Function to show an information card for a selected state
 function showInfoCard(stateName) {
+    // Log the state name for debugging purposes
     console.log('Displaying information card for state:', stateName);
+    
+    // Find the data for the selected state
     const stateData = data.find(d => d.state === stateName);
+    
     if (stateData) {
+        // Select or create the info card container
         const infoCard = d3.select('#info-card-container').selectAll('#info-card').data([0]);
         const infoCardEnter = infoCard.enter().append('div').attr('id', 'info-card');
         const infoCardUpdate = infoCard.merge(infoCardEnter);
 
+        // Update the HTML content of the info card
         infoCardUpdate.html(`
             <h3>${stateName}</h3>
             <div style="display: flex; justify-content: space-around;">
@@ -325,6 +357,7 @@ function showInfoCard(stateName) {
             </div>
         `);
 
+        // Apply styles to the info card
         infoCardUpdate
             .style('display', 'block')
             .style('background-color', 'white')
@@ -335,16 +368,25 @@ function showInfoCard(stateName) {
             .style('max-width', '600px')
             .style('margin', '0 auto 20px auto');
     } else {
+        // Log a warning if no data is available for the state
         console.warn('No data available for state:', stateName);
     }
 }
 
 // Function to display charts for a selected state using yearly data
 function showStateCharts(stateName) {
+    // Log the state name for which charts are being generated
     console.log('Generating charts for state:', stateName);
+    
+    // Filter the stateYearData to get data only for the selected state
     const stateData = stateYearData.filter(d => d.state === stateName);
+    
+    // Check if data is available for the selected state
     if (stateData.length > 0) {
+        // Select the container where charts will be displayed
         const chartsContainer = d3.select('#charts-container');
+        
+        // Apply flexbox styling to the charts container for responsive layout
         chartsContainer
             .style('display', 'flex')
             .style('justify-content', 'center')
@@ -352,6 +394,7 @@ function showStateCharts(stateName) {
             .style('margin-top', '20px')
             .style('margin-bottom', '20px');
 
+        // Insert HTML for three chart canvases
         chartsContainer.html(`
             <div class="chart-wrapper">
                 <canvas id="totalBirthsChart"></canvas>
@@ -364,7 +407,7 @@ function showStateCharts(stateName) {
             </div>
         `);
 
-        // Apply consistent styling to chart wrappers
+        // Apply consistent styling to all chart wrappers
         d3.selectAll('.chart-wrapper')
             .style('background-color', 'white')
             .style('padding', '15px')
@@ -375,10 +418,12 @@ function showStateCharts(stateName) {
             .style('margin', '10px')
             .style('box-sizing', 'border-box');
 
+        // Create individual charts for total births, average mother age, and average birth weight
         createChart('totalBirthsChart', stateData, 'Total Births', 'total_births');
         createChart('avgMotherAgeChart', stateData, 'Average Mother Age', 'avg_age_of_mother', true);
         createChart('avgBirthWeightChart', stateData, 'Average Birth Weight (g)', 'avg_birth_weight_g', true);
     } else {
+        // Log a warning if no data is available for the selected state
         console.warn('No yearly data available for state:', stateName);
     }
 }
